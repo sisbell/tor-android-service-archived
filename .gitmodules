@@ -1,0 +1,9 @@
+[submodule "external/badvpn"]
+	path = external/badvpn
+	url = https://github.com/guardianproject/badvpn.git
+[submodule "external/jsocks"]
+	path = external/jsocks
+	url = https://github.com/guardianproject/jsocks.git
+[submodule "external/pluto"]
+	path = external/pluto
+	url = https://github.com/guardianproject/pluto.git
