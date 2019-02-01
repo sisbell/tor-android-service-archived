@@ -17,6 +17,8 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import com.msopentech.thali.android.toronionproxy.AndroidOnionProxyManager;
+import com.msopentech.thali.toronionproxy.EventBroadcaster;
+import com.msopentech.thali.toronionproxy.TorConfig;
 import com.msopentech.thali.toronionproxy.TorConfigBuilder;
 import org.torproject.android.service.util.DummyActivity;
 import org.torproject.android.service.util.Prefs;
@@ -37,6 +39,7 @@ public final class TorService extends Service implements TorServiceConstants, Or
     private AndroidOnionProxyManager onionProxyManager;
     private ActionBroadcastReceiver mActionBroadcastReceiver;
     private AndroidEventBroadcaster mEventBroadcaster;
+    private DataService mDataService;
     private TorEventHandler mEventHandler;
     private ExecutorService mExecutor = Executors.newFixedThreadPool(3);
     private SharedPreferences mPrefs;
@@ -213,6 +216,9 @@ public final class TorService extends Service implements TorServiceConstants, Or
         onionProxyManager =
                 new AndroidOnionProxyManager(getApplicationContext(), "torfiles", androidTorSettings,
                         mEventBroadcaster, mEventHandler);
+        mDataService = new DataService(getApplicationContext(), this, onionProxyManager.getContext().getConfig(),
+                mEventBroadcaster);
+
         registerReceiver(mNetworkStateReceiver, new IntentFilter(ConnectivityManager
                 .CONNECTIVITY_ACTION));
         mActionBroadcastReceiver = new ActionBroadcastReceiver();
@@ -280,6 +286,7 @@ public final class TorService extends Service implements TorServiceConstants, Or
                     .updating_settings_in_tor_service));
             TorConfigBuilder builder = onionProxyManager.getContext()
                     .newConfigBuilder().updateTorConfig();
+            mDataService.updateConfigBuilder(builder);
             onionProxyManager.getContext().getInstaller().updateTorConfigCustom
                     (builder.asString());
             mEventBroadcaster.broadcastNotice("updating torrc custom configuration...");
@@ -318,10 +325,9 @@ public final class TorService extends Service implements TorServiceConstants, Or
                 mEventBroadcaster.broadcastNotice(getString(R.string.status_starting_up));
 
                 onionProxyManager.start(true);
-              //  onionProxyManager.startWithRepeat(60, 3, true);
                 mEventBroadcaster.broadcastLogMessage(getString(R.string.tor_process_starting)
                         + ' ' + getString(R.string.tor_process_complete));
-             //   mEventBroadcaster.getStatus().on();
+                mDataService.updateHiddenServices();
             } catch (Exception e) {
                 mEventBroadcaster.broadcastException("Unable to start Tor: " + e.toString(), e);
                 notify(getString(R.string.unable_to_start_tor) + ": " + e.getMessage(),
