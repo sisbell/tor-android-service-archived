@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Orbot</string>
+  <string name="app_name">Tor Browser</string>
   <string name="app_description">Orbot je besplatna proxy aplikacija koja omogućuje ostalim aplikacijama da koriste internet sigurnije. Orbot koristi Tor za enkripciju Vašeg Internet prometa, a zatim ga skriva šaljući ga kroz seriju računala diljem svijeta. Tor je besplatan software i otvorena mreža koja pomaže u borbi protiv nadzora mreže koji ugrožava osobne slobode i privatnost, povjerljive poslovne aktivnosti i odnose, te pomaže u borbi protiv analize prometa.</string>
   <string name="internal_web_url">http://orbot/</string>
   <string name="default_web_url">http://check.torproject.org</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Orbot</string>
+  <string name="app_name">Tor Browser</string>
   <string name="app_description">औरबौट एक मुफ्त अैप</string>
   <string name="menu_browse">ब्राउज़</string>
   <string name="menu_settings">सेटिंग्स</string>

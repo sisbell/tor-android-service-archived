@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Orbot</string>
+  <string name="app_name">Tor Browser</string>
   <string name="app_description">Orbot là một ứng dụng proxy miễn phí, được thiết kế để làm cho các ứng dụng khác kết nối với Internet một cách an toàn. Orbot sử dụng Tor để mã hóa các kết nối Internet rồi ẩn danh nó thông qua một loạt các nút trong mạng Tor. Tor là phần mềm miễn phí và là một mạng lưới mở giúp bạn chống lại sự giám sát mạng, vốn đe dọa riêng tư trực tuyến, hay các hoạt động bí mật...</string>
   <string name="internal_web_url">http://orbot/</string>
   <string name="default_web_url">http://check.torproject.org</string>

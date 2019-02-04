@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Orbot</string>
+  <string name="app_name">Tor Browser</string>
   <string name="app_description">Orbot is een gratis en vrije proxy-app die het andere apps mogelijk maakt het internet veiliger te gebruiken. Orbot gebruikt Tor om je internetverkeer te coderen en het vervolgens te verhullen het door het door een serie computers over de hele wereld te routeren. Tor is vrije software en een open netwerk dat je helpt te verdedigen tegen een vorm van netwerktoezicht die persoonlijke vrijheid en privacy, vertrouwelijke bedrijfsactiviteiten en relaties en staatsveiligheid genaamd \'traffic analyse\' bedreigt.</string>
   <string name="internal_web_url">http://orbot/</string>
   <string name="default_web_url">http://check.torproject.org</string>

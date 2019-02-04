@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Orbot</string>
+  <string name="app_name">Tor Browser</string>
   <string name="app_description">Orbot è un\'applicazione proxy che permette alle altre applicazioni di accedere a internet in maniera più sicura. Orbot usa Tor per cifrare il  traffico internet e lo nasconde poi facendolo rimbalzare attraverso una serie di computer attorno al mondo. Tor è un software libero e una rete aperta che aiuta a difendersi da una forma di sorveglianza della rete conosciuta come analisi del traffico. Quest\'ultima minaccia libertà e privacy personale, attività commerciali riservate, rapporti interpersonali, e persino la sicurezza di stato.</string>
   <string name="internal_web_url">http://orbot/</string>
   <string name="default_web_url">http://check.torproject.org</string>

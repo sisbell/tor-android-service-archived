@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Orbot</string>
+  <string name="app_name">Tor Browser</string>
   <string name="app_description">Orbot是一款免費的網絡代理應用程式，用來保護其他應用程式的上網安全。
 Orbot使用Tor在全球一系列的電腦間跳躍，以便隱藏網路流量並加密。Tor是個免費軟體也是個開放網路，能幫您抵禦流量分析。它是某一種網路監控，牽涉到個人的自由與隱私、商業部分的機密關係和活動、甚至國家安全。</string>
   <string name="internal_web_url">http://orbot/</string>

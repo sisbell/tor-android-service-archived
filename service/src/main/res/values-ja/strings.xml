@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Orbot</string>
+  <string name="app_name">Tor Browser</string>
   <string name="app_description">Orbotは他のアプリがインターネットをより安全に使うことを可能にするフリーのプロキシアプリです。Orbotでは、Torを用いてあなたの端末のトラフィックを暗号化し、世界中のコンピューターを中継することで、そのトラフィックを隠します。Torはフリーのソフトウェアとオープンなネットワークであり、ユーザーの自由とプライバシーを脅かす監視活動や、機密のビジネス活動、国家によるトラフィック分析から身を守ることを助けてくれます。</string>
   <string name="internal_web_url">http://orbot/</string>
   <string name="default_web_url">http://check.torproject.org</string>
