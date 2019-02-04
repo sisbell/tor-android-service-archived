@@ -40,7 +40,8 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'net.freehaven.tor.control:jtorctl:0.2'
     implementation 'org.torproject:tor-android-binary:0.3.5.6-rc'
-    implementation 'com.github.sisbell:Tor_Onion_Proxy_Library:11f5b47d0f167a08cafebae4d386540b4d438d9e'
+    implementation 'com.github.sisbell.Tor_Onion_Proxy_Library:universal:11f5b47d0f167a08cafebae4d386540b4d438d9e'
+    implementation 'com.github.sisbell:Tor_Onion_Proxy_Library_Android:d243a4eb58d26dad6a6f9744779e4920daf2e53f'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
