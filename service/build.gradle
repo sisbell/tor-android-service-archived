@@ -1,9 +1,5 @@
 apply plugin: 'com.android.library'
 
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -36,7 +32,6 @@ android {
 dependencies {
     implementation project(':jsocksAndroid')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'net.freehaven.tor.control:jtorctl:0.2'
     implementation 'org.torproject:tor-android-binary:0.3.5.6-rc'
