@@ -13,11 +13,11 @@ public interface TorServiceConstants {
 
     String DIRECTORY_TOR_BINARY = "bin";
     String SHELL_CMD_PS = "toolbox ps";
-    int TOR_TRANSPROXY_PORT_DEFAULT = 9040;
+    int TOR_TRANSPROXY_PORT_DEFAULT = 9140;
 
     int TOR_DNS_PORT_DEFAULT = 5400;
-    int HTTP_PROXY_PORT_DEFAULT = 8118; // like Privoxy!
-    int SOCKS_PROXY_PORT_DEFAULT = 9050;
+    int HTTP_PROXY_PORT_DEFAULT = 8218;
+    int SOCKS_PROXY_PORT_DEFAULT = 9150;
 
     //control port
     String LOG_NOTICE_HEADER = "NOTICE";
