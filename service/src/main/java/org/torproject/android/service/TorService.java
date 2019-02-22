@@ -17,10 +17,7 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import com.msopentech.thali.android.toronionproxy.AndroidOnionProxyManager;
-import com.msopentech.thali.toronionproxy.EventBroadcaster;
-import com.msopentech.thali.toronionproxy.TorConfig;
 import com.msopentech.thali.toronionproxy.TorConfigBuilder;
-import org.torproject.android.service.util.DummyActivity;
 import org.torproject.android.service.util.Prefs;
 import org.torproject.android.service.util.TorServiceUtils;
 import org.torproject.android.service.vpn.TorVpnService;
@@ -272,9 +269,7 @@ public final class TorService extends Service implements TorServiceConstants, Or
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         Log.d(OrbotConstants.TAG, "task removed");
-        Intent intent = new Intent(this, DummyActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        stopTorAsync();
     }
 
     private void setTorNetworkEnabledAsync(final boolean isEnabled) {
