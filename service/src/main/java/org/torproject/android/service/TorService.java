@@ -136,6 +136,12 @@ public final class TorService extends Service implements TorServiceConstants, Or
     public void notify(String notifyMsg, int notifyType, int icon) {
         PackageManager pm = getPackageManager();
         Intent intent = pm.getLaunchIntentForPackage(getPackageName());
+        if(intent == null) {
+            Log.d(TAG, "Unable to notify: no intent found");
+            return;
+        }
+        intent.setAction(TorServiceConstants.TOR_APP_USERNAME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
 
         if (mNotifyBuilder == null) {
