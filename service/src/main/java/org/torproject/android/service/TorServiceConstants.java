@@ -9,7 +9,7 @@ import android.content.Intent;
 public interface TorServiceConstants {
 
     String TOR_APP_USERNAME = "org.torproject.android";
-    String BROWSER_APP_USERNAME = "info.guardianproject.orfox";
+    String BROWSER_APP_USERNAME = "org.torproject.torbrowser";
 
     String DIRECTORY_TOR_BINARY = "bin";
     String SHELL_CMD_PS = "toolbox ps";
