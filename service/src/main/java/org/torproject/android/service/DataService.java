@@ -28,10 +28,13 @@ final class DataService {
         this.torService = torService;
         this.eventBroadcaster = eventBroadcaster;
         this.torConfig = torConfig;
+        String packageName = context.getApplicationInfo().packageName;
+        COOKIE_CONTENT_URI = Uri.parse("content://" + packageName + ".ui.hiddenservices.providers.cookie/cookie");
+        HS_CONTENT_URI = Uri.parse("content://" + packageName + ".ui.hiddenservices.providers/hs");
     }
 
-    private static final Uri HS_CONTENT_URI = Uri.parse("content://org.torproject.android.ui.hiddenservices.providers/hs");
-    private static final Uri COOKIE_CONTENT_URI = Uri.parse("content://org.torproject.android.ui.hiddenservices.providers.cookie/cookie");
+    private Uri HS_CONTENT_URI;
+    private Uri COOKIE_CONTENT_URI;
 
     private static final class HiddenService implements BaseColumns {
         static final String NAME = "name";
