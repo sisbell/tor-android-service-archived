@@ -43,7 +43,7 @@ public final class TorService extends Service implements TorServiceConstants, Or
     private int mPortSOCKS;
     private NotificationManager mNotificationManager;
     private boolean mNotificationShowing = false;
-    private NotificationCompat.Builder mNotifyBuilder;
+    private NotificationBuilderCompat mNotifyBuilder;
 
     private final BroadcastReceiver mNetworkStateReceiver = new BroadcastReceiver() {
         @Override
@@ -142,11 +142,9 @@ public final class TorService extends Service implements TorServiceConstants, Or
         PendingIntent pendIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
 
         if (mNotifyBuilder == null) {
-            mNotifyBuilder = new NotificationCompat.Builder(getApplicationContext())
-                    .setContentTitle(getString(R.string.app_name))
-                    .setSmallIcon(R.drawable.ic_stat_tor).setContentIntent(pendIntent)
-                    .setCategory(Notification
-                            .CATEGORY_SERVICE).setChannelId(NOTIFICATION_CHANNEL_ID);
+            mNotifyBuilder = new NotificationBuilderCompat(this, NOTIFICATION_CHANNEL_ID)
+                    .setContentTitle(getString(R.string.app_name)).setContentIntent(pendIntent).setCategory("service")
+                    .setSmallIcon(R.drawable.ic_stat_tor);
 
             Intent intentRefresh = new Intent(CMD_NEWNYM);
             PendingIntent pendingIntentNewNym = PendingIntent.getBroadcast(getApplicationContext
