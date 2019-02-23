@@ -1,10 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -27,12 +24,30 @@ android {
         abortOnError false
     }
 
+    flavorDimensions "sdk"
+
+    productFlavors {
+        sdkVer26 {
+            dimension "sdk"
+            compileSdkVersion 26
+            targetSdkVersion 26
+            minSdkVersion 16
+            versionNameSuffix "-sdk26"
+        }
+
+        sdkVer28 {
+            dimension "sdk"
+            compileSdkVersion 28
+            versionNameSuffix "-sdk28"
+        }
+    }
 }
 
 dependencies {
     implementation project(':jsocksAndroid')
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    sdkVer28Implementation 'com.android.support:appcompat-v7:28.0.0'
+    sdkVer26Implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'net.freehaven.tor.control:jtorctl:0.2'
     implementation 'org.torproject:tor-android-binary:0.3.5.6-rc'
     implementation 'com.github.sisbell.Tor_Onion_Proxy_Library:universal:11f5b47d0f167a08cafebae4d386540b4d438d9e'
