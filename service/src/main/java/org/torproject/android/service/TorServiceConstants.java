@@ -102,5 +102,7 @@ public interface TorServiceConstants {
 
     String HIDDEN_SERVICES_DIR = "hidden_services";
 
+    String TOR_CONTROL_PORT_MSG_BOOTSTRAP_DONE = "Bootstrapped 100%";
+
 
 }
