@@ -1,4 +1,4 @@
-package org.torproject.android.service;
+package org.torproject.android.service.util;
 
 import android.app.Notification;
 import android.app.PendingIntent;

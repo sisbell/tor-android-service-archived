@@ -19,3 +19,18 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class org.torproject.android.service.vpn.Tun2Socks {
+    void logTun2Socks(java.lang.String, java.lang.String, java.lang.String);
+}
+
+-keepclassmembers class org.torproject.android.service.TorServiceConstants {
+  public *;
+}
+
+-keepclassmembers class org.torproject.android.service.util.NotificationBuilderCompat {
+  public *;
+}
+
+-keepclassmembers class org.torproject.android.service.util.Prefs {
+  public *;
+}
