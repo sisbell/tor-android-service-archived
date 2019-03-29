@@ -7,8 +7,10 @@ import com.msopentech.thali.toronionproxy.TorSettings;
 import org.torproject.android.service.util.Prefs;
 import org.torproject.android.service.vpn.OrbotVpnManager;
 
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.torproject.android.service.TorServiceConstants.HTTP_PROXY_PORT_DEFAULT;
 
@@ -44,11 +46,6 @@ public class AndroidTorSettings implements TorSettings {
     }
 
     @Override
-    public InputStream getBridges() {
-        return context.getResources().openRawResource(R.raw.bridges);
-    }
-
-    @Override
     public String getCustomTorrc() {
         return prefs.getString("pref_custom_torrc", "");
     }
@@ -74,11 +71,11 @@ public class AndroidTorSettings implements TorSettings {
     }
 
     @Override
-    public String getListOfSupportedBridges() {
+    public List<String> getListOfSupportedBridges() {
         try {
-            return new String(Prefs.getBridgesList().getBytes("ISO-8859-1"));
+            return Arrays.asList(new String(Prefs.getBridgesList().getBytes("ISO-8859-1")).split(","));
         } catch (UnsupportedEncodingException e) {
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -153,6 +150,11 @@ public class AndroidTorSettings implements TorSettings {
     }
 
     @Override
+    public boolean hasCookieAuthentication() {
+        return true;
+    }
+
+    @Override
     public boolean hasDebugLogs() {
         return Prefs.useDebugLogging();
     }
@@ -200,6 +202,11 @@ public class AndroidTorSettings implements TorSettings {
     @Override
     public boolean isRelay() {
         return prefs.getBoolean(PREF_OR, false);
+    }
+
+    @Override
+    public boolean runAsDaemon() {
+        return true;
     }
 
     @Override

@@ -27,8 +27,7 @@ import java.util.concurrent.Executors;
 
 public final class TorService extends Service implements TorServiceConstants, OrbotConstants {
 
-    public final static String TOR_VERSION = org.torproject.android.binary.TorServiceConstants
-            .BINARY_TOR_VERSION;
+    public final static String TOR_VERSION = org.torproject.android.binary.TorServiceConstants.BINARY_TOR_VERSION;
     private static final int NOTIFY_ID = 1;
     private static final int ERROR_NOTIFY_ID = 3;
     private final static String NOTIFICATION_CHANNEL_ID = "orbot_channel_1";
@@ -279,6 +278,13 @@ public final class TorService extends Service implements TorServiceConstants, Or
     }
 
     private boolean setupTor() {
+        try {
+            onionProxyManager.setup();
+        } catch (Exception e) {
+            Log.e(OrbotConstants.TAG, "Error installing Tor binaries", e);
+            mEventBroadcaster.broadcastNotice("There was an error installing Tor binaries");
+            return false;
+        }
 
         try {
             mEventBroadcaster.broadcastNotice(getString(R.string
@@ -286,7 +292,7 @@ public final class TorService extends Service implements TorServiceConstants, Or
             TorConfigBuilder builder = onionProxyManager.getContext()
                     .newConfigBuilder().updateTorConfig();
             mDataService.updateConfigBuilder(builder);
-            onionProxyManager.getContext().getInstaller().updateTorConfigCustom
+            onionProxyManager.getTorInstaller().updateTorConfigCustom
                     (builder.asString());
             mEventBroadcaster.broadcastNotice("updating torrc custom configuration...");
             mEventBroadcaster.broadcastDebug("torrc.custom=" + builder.asString());
@@ -298,13 +304,7 @@ public final class TorService extends Service implements TorServiceConstants, Or
             return false;
         }
 
-        try {
-            return onionProxyManager.setup();
-        } catch (Exception e) {
-            Log.e(OrbotConstants.TAG, "Error installing Orbot binaries", e);
-            mEventBroadcaster.broadcastNotice("There was an error installing Orbot binaries");
-            return false;
-        }
+        return true;
     }
 
     private synchronized void startTor() {
