@@ -49,7 +49,7 @@ dependencies {
     sdkVer28Implementation 'com.android.support:appcompat-v7:28.0.0'
     sdkVer26Implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'net.freehaven.tor.control:jtorctl:0.2'
-    compileOnly 'org.torproject:tor-android-binary:0.3.5.8-rc'
+    compileOnly 'org.torproject:tor-android-binary:0.3.5.8-rc-v2'
     implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'org.slf4j:slf4j-android:1.7.25'
 
