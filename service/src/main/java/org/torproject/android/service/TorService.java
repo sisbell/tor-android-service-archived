@@ -214,7 +214,7 @@ public final class TorService extends Service implements TorServiceConstants, Or
         mEventBroadcaster = new AndroidEventBroadcaster(getApplicationContext(), androidTorSettings);
         mEventHandler = new TorEventHandler(this, mEventBroadcaster);
         onionProxyManager =
-                new AndroidOnionProxyManager(getApplicationContext(), "torfiles", androidTorSettings,
+                new AndroidOnionProxyManager(getApplicationContext(), "torfiles", "torfiles", androidTorSettings,
                         mEventBroadcaster, mEventHandler);
         mDataService = new DataService(getApplicationContext(), this, onionProxyManager.getContext().getConfig(),
                 mEventBroadcaster);
@@ -315,12 +315,10 @@ public final class TorService extends Service implements TorServiceConstants, Or
             setTorNetworkEnabledAsync(true);
         } else {
             try {
-                String version = mPrefs.getString(PREF_BINARY_TOR_VERSION_INSTALLED, null);
-                mEventBroadcaster.broadcastNotice("checking binary version: " + version);
+                mEventBroadcaster.broadcastNotice("checking binary version: " + TOR_VERSION);
                 mEventBroadcaster.getStatus().starting();
                 notify(getString(R.string.status_starting_up), NOTIFY_ID,
                         R.drawable.ic_stat_tor);
-                mEventBroadcaster.broadcastLogMessage(getString(R.string.status_starting_up));
                 mEventBroadcaster.broadcastNotice(getString(R.string.status_starting_up));
 
                 onionProxyManager.start(true);
