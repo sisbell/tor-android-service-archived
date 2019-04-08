@@ -16,18 +16,22 @@ import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 import com.msopentech.thali.android.toronionproxy.AndroidOnionProxyManager;
+import com.msopentech.thali.toronionproxy.TorConfig;
 import com.msopentech.thali.toronionproxy.TorConfigBuilder;
+import com.msopentech.thali.toronionproxy.TorInstaller;
 import org.torproject.android.service.util.NotificationBuilderCompat;
 import org.torproject.android.service.util.Prefs;
 import org.torproject.android.service.util.TorServiceUtils;
 import org.torproject.android.service.vpn.TorVpnService;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public final class TorService extends Service implements TorServiceConstants, OrbotConstants {
 
-    public final static String TOR_VERSION = org.torproject.android.binary.TorServiceConstants.BINARY_TOR_VERSION;
+    public final static String TOR_VERSION = "0.3.5.8-rc-openssl1.0.2p";
     private static final int NOTIFY_ID = 1;
     private static final int ERROR_NOTIFY_ID = 3;
     private final static String NOTIFICATION_CHANNEL_ID = "orbot_channel_1";
@@ -213,9 +217,15 @@ public final class TorService extends Service implements TorServiceConstants, Or
         AndroidTorSettings androidTorSettings = new AndroidTorSettings(this, mPrefs);
         mEventBroadcaster = new AndroidEventBroadcaster(getApplicationContext(), androidTorSettings);
         mEventHandler = new TorEventHandler(this, mEventBroadcaster);
+
+        File configDir = getDir("torservice", Context.MODE_PRIVATE);
+        File nativeDir = new File(getApplicationInfo().nativeLibraryDir);
+        TorConfig torConfig = createConfig(nativeDir, configDir);
+        TorInstaller torInstaller = new CustomTorInstaller(getApplicationContext(), configDir, torConfig.getTorrcFile());
+
         onionProxyManager =
-                new AndroidOnionProxyManager(getApplicationContext(), "torfiles", "torfiles", androidTorSettings,
-                        mEventBroadcaster, mEventHandler);
+                new AndroidOnionProxyManager(getApplicationContext(), torConfig,
+                        torInstaller, androidTorSettings, mEventBroadcaster, mEventHandler);
         mDataService = new DataService(getApplicationContext(), this, onionProxyManager.getContext().getConfig(),
                 mEventBroadcaster);
 
@@ -291,6 +301,12 @@ public final class TorService extends Service implements TorServiceConstants, Or
                     .updating_settings_in_tor_service));
             TorConfigBuilder builder = onionProxyManager.getContext()
                     .newConfigBuilder().updateTorConfig();
+
+            File nativeDir = new File(getApplicationInfo().nativeLibraryDir);
+            File pluggableTransport = new File(nativeDir, "libObfs4proxy.so");
+            if(!pluggableTransport.canExecute()) pluggableTransport.setExecutable(true);
+
+            builder.configurePluggableTransportsFromSettings(pluggableTransport);
             mDataService.updateConfigBuilder(builder);
             onionProxyManager.getTorInstaller().updateTorConfigCustom
                     (builder.asString());
@@ -421,5 +437,14 @@ public final class TorService extends Service implements TorServiceConstants, Or
                 }
             }
         }
+    }
+
+    private static TorConfig createConfig(File nativeDir, File configDir) {
+        TorConfig.Builder builder = new TorConfig.Builder(nativeDir, configDir);
+       // builder.dataDir(configDir);
+        File exe = new File(nativeDir, "libTor.so");
+        exe.setExecutable(true);
+        builder.torExecutable(exe);
+        return builder.build();
     }
 }

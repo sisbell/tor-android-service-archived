@@ -10,11 +10,8 @@ import android.util.Log;
 import com.msopentech.thali.toronionproxy.EventBroadcaster;
 import com.msopentech.thali.toronionproxy.TorConfig;
 import com.msopentech.thali.toronionproxy.TorConfigBuilder;
-import org.torproject.android.binary.Utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 
 final class DataService {
 
@@ -90,7 +87,7 @@ final class DataService {
                     if (file.exists()) {
                         ContentValues fields = new ContentValues();
                         try {
-                            String onionHostname = Utils.readString(new FileInputStream(file)).trim();
+                            String onionHostname = readString(new FileInputStream(file)).trim();
                             if (authCookie == 1) {
                                 String[] aux = onionHostname.split(" ");
                                 onionHostname = aux[0];
@@ -163,5 +160,20 @@ final class DataService {
             cookieCursor.close();
         }
         return builder;
+    }
+
+    private static String readString(InputStream stream) {
+        StringBuilder out = new StringBuilder();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                out.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return out.toString();
+
     }
 }
