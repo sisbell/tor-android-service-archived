@@ -2,30 +2,14 @@ apply plugin: 'com.android.library'
 
 android {
     defaultConfig {
+        compileSdkVersion "${compileVersion}".toInteger()
+        targetSdkVersion "${targetVersion}".toInteger()
+        minSdkVersion "${minVersion}".toInteger()
         consumerProguardFiles 'proguard-rules.pro'
     }
     buildTypes {
         release {
             minifyEnabled false
-        }
-    }
-
-    flavorDimensions "sdk"
-
-    productFlavors {
-        sdkVer26 {
-            dimension "sdk"
-            compileSdkVersion 26
-            targetSdkVersion 26
-            minSdkVersion 16
-            versionNameSuffix "-sdk26"
-        }
-        sdkVer28 {
-            dimension "sdk"
-            compileSdkVersion 28
-            targetSdkVersion 28
-            minSdkVersion 21
-            versionNameSuffix "-sdk28"
         }
     }
 }
