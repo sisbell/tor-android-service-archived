@@ -3,6 +3,7 @@ package org.torproject.android.service;
 import android.content.Context;
 import android.util.Log;
 import com.msopentech.thali.toronionproxy.TorInstaller;
+import org.torproject.android.service.util.Prefs;
 
 import java.io.*;
 import java.util.concurrent.TimeoutException;
@@ -24,7 +25,6 @@ public class CustomTorInstaller extends TorInstaller {
         copy(context.getAssets().open("common/geoip"), new File(configDir, "geoip"));
         copy(context.getAssets().open("common/geoip6"), new File(configDir, "geoip6"));
         copy(context.getAssets().open("common/torrc"), new File(configDir, "torrc"));
-        copy(context.getAssets().open("common/bridges.txt"), new File(configDir, "bridges.txt"));
     }
 
     @Override
@@ -34,7 +34,8 @@ public class CustomTorInstaller extends TorInstaller {
 
     @Override
     public InputStream openBridgesStream() throws IOException {
-        return context.getResources().openRawResource(R.raw.bridges);
+        ByteArrayInputStream userDefinedBridges = new ByteArrayInputStream((Prefs.getBridgesList() + "\r\n").getBytes());
+        return new SequenceInputStream(userDefinedBridges, context.getResources().getAssets().open("common/bridges.txt"));
     }
 
     private static void copy(InputStream is, File target) throws IOException {
