@@ -336,8 +336,7 @@ public final class TorService extends Service implements TorServiceConstants, Or
                 notify(getString(R.string.status_starting_up), NOTIFY_ID,
                         R.drawable.ic_stat_tor);
                 mEventBroadcaster.broadcastNotice(getString(R.string.status_starting_up));
-
-                onionProxyManager.start(true);
+                onionProxyManager.start();
                 mEventBroadcaster.broadcastLogMessage(getString(R.string.tor_process_starting)
                         + ' ' + getString(R.string.tor_process_complete));
                 mDataService.updateHiddenServices();
