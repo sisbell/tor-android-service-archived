@@ -32,10 +32,17 @@ public class CustomTorInstaller extends TorInstaller {
         updateTorConfigCustom(torrcFile, content);
     }
 
+    /**
+     * Opens bridges list as <code>InputStream</code>. First checks for user defined bridges from the user pref file.
+     * If it finds user defined bridges, then the stream will contain only these bridges. Otherwise, it returns
+     * a set of predefined bridges.
+     */
     @Override
     public InputStream openBridgesStream() throws IOException {
-        ByteArrayInputStream userDefinedBridges = new ByteArrayInputStream((Prefs.getBridgesList() + "\r\n").getBytes());
-        return new SequenceInputStream(userDefinedBridges, context.getResources().getAssets().open("common/bridges.txt"));
+        String userDefinedBridgeList = Prefs.getBridgesList();
+        return (userDefinedBridgeList.length() > 10) ?
+                new ByteArrayInputStream((userDefinedBridgeList + "\r\n").getBytes()) :
+                context.getResources().getAssets().open("common/bridges.txt");
     }
 
     private static void copy(InputStream is, File target) throws IOException {
