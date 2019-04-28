@@ -290,37 +290,12 @@ public final class TorService extends Service implements TorServiceConstants, Or
     private boolean setupTor() {
         try {
             onionProxyManager.setup();
+            return true;
         } catch (Exception e) {
             Log.e(OrbotConstants.TAG, "Error installing Tor binaries", e);
             mEventBroadcaster.broadcastNotice("There was an error installing Tor binaries");
             return false;
         }
-
-        try {
-            mEventBroadcaster.broadcastNotice(getString(R.string
-                    .updating_settings_in_tor_service));
-            TorConfigBuilder builder = onionProxyManager.getContext()
-                    .newConfigBuilder().updateTorConfig();
-
-            File nativeDir = new File(getApplicationInfo().nativeLibraryDir);
-            File pluggableTransport = new File(nativeDir, "libObfs4proxy.so");
-            if(!pluggableTransport.canExecute()) pluggableTransport.setExecutable(true);
-
-            builder.configurePluggableTransportsFromSettings(pluggableTransport);
-            mDataService.updateConfigBuilder(builder);
-            onionProxyManager.getTorInstaller().updateTorConfigCustom
-                    (builder.asString());
-            mEventBroadcaster.broadcastNotice("updating torrc custom configuration...");
-            mEventBroadcaster.broadcastDebug("torrc.custom=" + builder.asString());
-            mEventBroadcaster.broadcastNotice("success.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(OrbotConstants.TAG, e.getMessage());
-            mEventBroadcaster.broadcastNotice("Error configuring tor: " + e.toString());
-            return false;
-        }
-
-        return true;
     }
 
     private synchronized void startTor() {
@@ -331,6 +306,7 @@ public final class TorService extends Service implements TorServiceConstants, Or
             setTorNetworkEnabledAsync(true);
         } else {
             try {
+                updateTorrcConfig();
                 mEventBroadcaster.broadcastNotice("checking binary version: " + TOR_VERSION);
                 mEventBroadcaster.getStatus().starting();
                 notify(getString(R.string.status_starting_up), NOTIFY_ID,
@@ -378,6 +354,38 @@ public final class TorService extends Service implements TorServiceConstants, Or
                 stopTorAndClearNotifications();
             }
         }).start();
+    }
+
+    /**
+     * Updates the torrc file based on the current user preferences
+     */
+    private boolean updateTorrcConfig() {
+        try {
+            mEventBroadcaster.broadcastNotice(getString(R.string
+                    .updating_settings_in_tor_service));
+            TorConfigBuilder builder = onionProxyManager.getContext()
+                    .newConfigBuilder().updateTorConfig();
+
+            //Check bridges to see if we need this
+            File nativeDir = new File(getApplicationInfo().nativeLibraryDir);
+            File pluggableTransport = new File(nativeDir, "libObfs4proxy.so");
+            if(!pluggableTransport.canExecute()) pluggableTransport.setExecutable(true);
+
+            builder.configurePluggableTransportsFromSettings(pluggableTransport);
+            mDataService.updateConfigBuilder(builder);
+            onionProxyManager.getTorInstaller().updateTorConfigCustom
+                    (builder.asString());
+            mEventBroadcaster.broadcastNotice("updating torrc custom configuration...");
+            mEventBroadcaster.broadcastDebug("torrc.custom=" + builder.asString());
+            mEventBroadcaster.broadcastNotice("success.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(OrbotConstants.TAG, e.getMessage());
+            mEventBroadcaster.broadcastNotice("Error configuring tor: " + e.toString());
+            return false;
+        }
+
+        return true;
     }
 
     private class ActionBroadcastReceiver extends BroadcastReceiver {

@@ -52,10 +52,9 @@ public class Prefs {
     }
 
     public static String getBridgesList() {
-        String defaultBridgeType = "obfs4";
-        if (Locale.getDefault().getLanguage().equals("fa"))
-            defaultBridgeType = "meek"; //if Farsi, use meek as the default bridge type
-        return prefs.getString(PREF_BRIDGES_LIST, defaultBridgeType);
+        String defaultBridgeType = (Locale.getDefault().getLanguage().equals("fa")) ? "meek": "obfs4";
+        String list = prefs.getString(PREF_BRIDGES_LIST, defaultBridgeType);
+        return (list.trim().isEmpty()) ? defaultBridgeType : list;
     }
 
     public static void setBridgesList(String value) {
